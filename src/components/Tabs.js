@@ -26,9 +26,10 @@ export default function(props) {
     setValue(newValue)
   }
   return (
-    <Tabs value={value} onChange={handleChange} classes={classes}>
+    <Tabs disableRipple value={value} onChange={handleChange} classes={classes}>
       {tabs.map(({ title, link }) => (
         <Tab
+          disableRipple
           key={title}
           label={title}
           component="a"

@@ -25,10 +25,9 @@ export default function(props) {
   const state = (() => { 
     for(const tab in tabs) 
       if((tabs[tab].link || "").startsWith(location)) return +tab 
-    return 0
+    return false
   })()
 
-  console.log(state)
   const [value, setValue] = React.useState(state)
   const handleChange = (event, newValue) => {
     setValue(newValue)

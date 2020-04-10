@@ -21,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
 export default function(props) {
   const classes = useStyles()
 
-  const { tabs } = props
-  const path = document.location.pathname
+  const { tabs, location } = props
   const state = (() => { 
     for(const tab in tabs) 
-      if((tabs[tab].link || "").startsWith(path)) return ~~tab 
+      if((tabs[tab].link || "").startsWith(location)) return +tab 
     return 0
   })()
 

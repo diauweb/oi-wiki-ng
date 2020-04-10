@@ -23,8 +23,13 @@ export default function(props) {
 
   const { tabs, location } = props
   const state = (() => { 
-    for(const tab in tabs) 
-      if((tabs[tab].link || "").startsWith(location)) return +tab 
+    for(const tab in tabs) {
+      if(tabs[tab].link == '/'){
+        if(location == tabs[tab].link) return +tab
+        else continue
+      }
+      if(location.startsWith(tabs[tab].link)) return +tab
+    }
     return false
   })()
 

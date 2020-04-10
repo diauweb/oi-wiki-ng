@@ -20,13 +20,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function(props) {
   const classes = useStyles()
-  const [value, setValue] = React.useState(0)
+
   const { tabs } = props
+  const path = document.location.pathname
+  const state = (() => { 
+    for(const tab in tabs) 
+      if((tabs[tab].link || "").startsWith(path)) return ~~tab 
+    return 0
+  })()
+
+  console.log(state)
+  const [value, setValue] = React.useState(state)
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
   return (
-    <Tabs disableRipple value={value} onChange={handleChange} classes={classes}>
+    <Tabs value={value} onChange={handleChange} classes={classes}>
       {tabs.map(({ title, link }) => (
         <Tab
           disableRipple

@@ -51,6 +51,15 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    "&::-webkit-scrollbar": {
+      width: ".4rem",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: theme.palette.divider,
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: fade(theme.palette.primary.main, 0.44),
+    },
   },
   content: {
     flexGrow: 1,
@@ -150,7 +159,7 @@ function ResponsiveDrawer(props) {
               />
             </div>
           </Hidden>
-          <Tooltip title="GitHub 存储库" placement="bottom">
+          <Tooltip title="GitHub 存储库" placement="bottom" arrow>
             <IconButton component={"a"} href={OIWikiGithub} color={"inherit"}>
               <FaGithub/>
             </IconButton>

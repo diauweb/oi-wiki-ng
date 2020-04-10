@@ -1,4 +1,4 @@
-# 为换框架所做出的尝试（
+# OI-Wiki NG
 
 Demo: https://ng.oi-wiki.org/
 

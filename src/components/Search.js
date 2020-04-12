@@ -1,25 +1,18 @@
 /** @jsx jsx */
 import Dialog from "@material-ui/core/Dialog"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
-import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import Divider from "@material-ui/core/Divider"
-import { useTheme } from "@material-ui/core/styles"
-import { jsx } from "theme-ui"
-import React, { useState } from "react"
-import Link from "./Link"
-import { withStyles } from "@material-ui/core/styles"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemText from "@material-ui/core/ListItemText"
 
 import IconButton from "@material-ui/core/IconButton"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemText from "@material-ui/core/ListItemText"
+import { makeStyles, withStyles } from "@material-ui/core/styles"
+import TextField from "@material-ui/core/TextField"
+import Typography from "@material-ui/core/Typography"
+import React, { useState } from "react"
 import { MdSearch } from "react-icons/md"
-import { makeStyles } from "@material-ui/core/styles"
+import { jsx } from "theme-ui"
 
 const useStyles = makeStyles({})
 
@@ -53,15 +46,14 @@ class Result extends React.Component {
       ev: ev.target.value,
     })
     // this.timer = setTimeout(this.handleChange, 0)
-    if (ev != "") this.timer = setTimeout(this.handleChange, 500)
+    if (ev !== "") this.timer = setTimeout(this.handleChange, 500)
   }
 
   handleChange(w) {
     const { ev } = this.state
 
-    let sta = [],
-      Rsize
-    const result = fetch(`https://search.oi-wiki.org:8443/?s=${ev}`, {
+    let sta = [], Rsize
+    const result = fetch(`https://search.oi-wiki.org:8443/?s=${encodeURIComponent(ev)}`, {
       // credentials: "same-origin"
     })
       .then((response) => response.json())
@@ -74,7 +66,7 @@ class Result extends React.Component {
       this.setState({
         val: val,
         searched: true,
-      })
+      }),
     )
   }
 
@@ -83,13 +75,14 @@ class Result extends React.Component {
     const { ev, val, searched } = this.state
     // console.log(searched)
     // console.log(val[0])
+
     return (
       <>
         <TextField
-          id="standard-full-width"
+          id="standard-search"
+          type="search"
           style={{ margin: 0 }}
-          placeholder="搜索..."
-          helperText="键入以开始搜索"
+          placeholder="键入以开始搜索"
           fullWidth
           margin="normal"
           InputLabelProps={{
@@ -98,35 +91,29 @@ class Result extends React.Component {
           onChange={this.update.bind(this)}
         />
 
-        {val.length != 0 ? (
+        {val.length !== 0 ? (
           <List>
             {val.map((item) => {
               /* Render article */
               return (
-                <ListItem button class="md-search-result__item">
-                  <a
-                    href={item.url}
-                    title={item.title}
-                    class="md-search-result__link"
-                    tabindex="-1"
-                  >
-                    <article
-                      class="md-search-result__article
-                      md-search-result__article--document"
-                    >
-                      <h1
-                        class="md-search-result__title"
+                <ListItem button component="a" href={item.url}>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        variant="h6"
                         dangerouslySetInnerHTML={{
                           __html: item.title.replace(ev, `<em>${ev}</em>`),
                         }}
-                      ></h1>
+                      />
+                    }
+                    secondary={
                       <div
                         dangerouslySetInnerHTML={{
                           __html: item.highlight ? item.highlight : "",
                         }}
-                      ></div>
-                    </article>
-                  </a>
+                      />
+                    }
+                  />
                 </ListItem>
               )
             })}
@@ -150,7 +137,7 @@ function Search() {
         onClick={() => setDialogOpen(true)}
         className={classes.iconButton}
       >
-        <MdSearch fontSize="medium" />
+        <MdSearch fontSize="medium"/>
       </IconButton>
       <Dialog
         open={dialogOpen}
@@ -161,7 +148,7 @@ function Search() {
       >
         <DialogTitle>{"搜索"}</DialogTitle>
         <DialogContent>
-          <Result></Result>
+          <Result/>
         </DialogContent>
       </Dialog>
     </>

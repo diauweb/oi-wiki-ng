@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import Button from "@material-ui/core/Button"
+import grey from "@material-ui/core/colors/grey"
 import Container from "@material-ui/core/Container"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Dialog from "@material-ui/core/Dialog"
@@ -65,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   footer: {
-    background: "#f1f3f4",
-    color: "#616161",
+    background: grey[200],
+    color: grey[700],
     padding: theme.spacing(3),
     [theme.breakpoints.up("lg")]: {
       marginLeft: 250,
@@ -76,7 +77,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       marginLeft: 250,
     },
-    overflow: "auto",
+    overflowX: "auto",
+    overflowY: "hidden",
   },
   iconButton: {
     float: "right",
@@ -102,11 +104,13 @@ function myLayout({
                     noComment,
                     noEdit,
                     noToC,
+                    overflow,
                   }) {
   const classes = useStyles()
   const theme = useTheme()
   const pageTitle = title === "OI Wiki" ? title : `${title} - OI Wiki`
-  const displayToC = toc && toc.items && noToC !== "true"
+  const displayToC = toc && toc.items && noToC === "true"
+  const gridWidthMdUp = overflow === "true" ? 12 : 10
   const editURL = "https://github.com/OI-wiki/OI-wiki/edit/master/docs/"
   const [dialogOpen, setDialogOpen] = useState(false)
   const EditingDialog = (
@@ -149,7 +153,7 @@ function myLayout({
       {EditingDialog}
       <NavAndDrawer pathname={location.pathname}/>
       <Grid container>
-        <Grid item xs={12} md={10} sm={12} lg={10} xl={10}>
+        <Grid item xs={12} sm={12} md={gridWidthMdUp} lg={gridWidthMdUp} xl={gridWidthMdUp}>
           <div className={classes.toolbar}/>
           <div className={classes.container}>
             <main className={classes.content}>

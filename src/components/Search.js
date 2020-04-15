@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import Backdrop from "@material-ui/core/Backdrop"
+import grey from "@material-ui/core/colors/grey"
 import Dialog from "@material-ui/core/Dialog"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
@@ -74,6 +75,7 @@ const styles = (theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
+    maxWidth: `calc(30vw + 1em + ${theme.spacing(4)}px)`,
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%",
@@ -104,44 +106,54 @@ const styles = (theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  searchMessage: {
+    padding: "8px 8px 8px 20px",
+    backgroundColor: grey[100],
+  },
 })
 
 function SearchResultList(props) {
   const { val, searched, ev, classes } = props
-  return val.length !== 0 ? (
-    <List>
-      {val.map((item) => {
-        /* Render article */
-        return (
-          <ListItem button divider component="a" href={item.url} key={item.url}>
-            <ListItemIcon>
-              <FindInPageIcon/>
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography
-                  variant="h6"
-                  className={classes.searchResultPrimary}
-                  dangerouslySetInnerHTML={{
-                    __html: item.title.replace(ev, `<em>${ev}</em>`),
-                  }}
-                />
-              }
-              secondary={
-                <div
-                  className={classes.searchResultSecondary}
-                  dangerouslySetInnerHTML={{
-                    __html: item.highlight ? item.highlight : "",
-                  }}
-                />
-              }
-            />
-          </ListItem>
-        )
-      })}
-    </List>
+  const valcount = val.length
+  return valcount !== 0 ? (
+    <>
+      <Typography variant="body1" className={classes.searchMessage}>
+        共找到 {valcount} 条搜索结果：
+      </Typography>
+      <List>
+        {val.map((item) => {
+          /* Render article */
+          return (
+            <ListItem button divider component="a" href={item.url} key={item.url}>
+              <ListItemIcon>
+                <FindInPageIcon/>
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography
+                    variant="h6"
+                    className={classes.searchResultPrimary}
+                    dangerouslySetInnerHTML={{
+                      __html: item.title.replace(ev, `<em>${ev}</em>`),
+                    }}
+                  />
+                }
+                secondary={
+                  <div
+                    className={classes.searchResultSecondary}
+                    dangerouslySetInnerHTML={{
+                      __html: item.highlight ? item.highlight : "",
+                    }}
+                  />
+                }
+              />
+            </ListItem>
+          )
+        })}
+      </List>
+    </>
   ) : searched ? (
-    <Typography variant={"body1"} sx={{ padding: "8px" }}>
+    <Typography variant={"body1"} className={classes.searchMessage}>
       没有找到符合条件的结果
     </Typography>
   ) : (

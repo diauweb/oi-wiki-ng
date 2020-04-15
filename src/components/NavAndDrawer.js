@@ -20,6 +20,7 @@ import tabData from "../tabs.yaml"
 import Search from "./Search"
 import SiderContent from "./Sidebar"
 import Tabs from "./Tabs"
+import Chip from "@material-ui/core/Chip"
 
 const drawerWidth = 250
 
@@ -109,6 +110,7 @@ function ResponsiveDrawer(props) {
               OI Wiki
             </Typography>
           </Button>
+          <Chip label="feature/pseudo" variant="outlined" />
           <div style={{ flexGrow: 1 }}/>
           <Hidden smDown implementation="css">
             <Search/>
